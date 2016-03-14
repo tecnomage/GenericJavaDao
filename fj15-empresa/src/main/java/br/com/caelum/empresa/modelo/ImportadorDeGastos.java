@@ -6,24 +6,26 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.Scanner;
 
 public class ImportadorDeGastos {
 
-	public List<Gasto> importa(InputStream entrada) throws ParseException {
+	public Collection importa(InputStream entrada) throws ParseException {
 		Scanner leitor = new Scanner(entrada);
-		List<Gasto> gastos = new ArrayList<Gasto>();
+		Collection<Gasto> gastos = new LinkedHashSet<Gasto>();
 
 		SimpleDateFormat df = new SimpleDateFormat("ddMMyyyy");
 
 		while (leitor.hasNextLine()) {
-			String line = leitor.nextLine();
-			String tipoDeGasto = line.substring(0, 6);
-			String dataGastotxt = line.substring(6, 14);
-			String valorGastotxt = line.substring(14, 23);
-			String matriculatxt = line.substring(23, 26);
-			String nome = line.substring(26, 56);
-			String dataNascTxt = line.substring(56);
+			String linha = leitor.nextLine();
+			String tipoDeGasto = linha.substring(0, 6);
+			String dataGastotxt = linha.substring(6, 14);
+			String valorGastotxt = linha.substring(14, 23);
+			String matriculatxt = linha.substring(23, 26);
+			String nome = linha.substring(26, 56);
+			String dataNascTxt = linha.substring(56);
 
 			double valor = Double.parseDouble(valorGastotxt);
 			int matricula = Integer.parseInt(matriculatxt);
@@ -35,10 +37,10 @@ public class ImportadorDeGastos {
 			Funcionario funcionario = criaFuncionario(nome, matricula, dataNascimento);
 			gastos.add(new Gasto(valor, tipoDeGasto, funcionario, dataDespesa));
 
-			
 		}
 
 		return gastos;
+
 	}
 
 	public Funcionario criaFuncionario(String nome, int matricula, Calendar dataNascimento) {
